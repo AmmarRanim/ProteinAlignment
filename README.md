@@ -291,38 +291,6 @@ Then open your browser to: **http://localhost:5000**
   - Functional annotations
   - AI interpretation
 
-### Python API:
-
-```python
-from protein_utils import fetch_protein_sequence
-from chunking import get_or_create_chunks
-from embeddings import get_or_create_embeddings, compute_similarity_matrix
-from alignment import smith_waterman_chunks
-from descriptors import get_or_create_descriptors
-
-# Fetch sequences
-human_seq = fetch_protein_sequence("P04637")
-bact_seq = fetch_protein_sequence("P0A7B8")
-
-# Create chunks
-human_chunks = get_or_create_chunks("P04637", human_seq, "human")
-bact_chunks = get_or_create_chunks("P0A7B8", bact_seq, "bacteria")
-
-# Compute embeddings
-human_emb = get_or_create_embeddings(human_chunks, "P04637")
-bact_emb = get_or_create_embeddings(bact_chunks, "P0A7B8")
-
-# Compute similarity matrix
-similarity_matrix = compute_similarity_matrix(human_emb, bact_emb)
-
-# Align
-score, alignment, _ = smith_waterman_chunks(similarity_matrix)
-
-# Get descriptors
-human_desc = get_or_create_descriptors(human_chunks, "P04637")
-bact_desc = get_or_create_descriptors(bact_chunks, "P0A7B8")
-```
-
 ---
 
 ## 🛠️ Technologies Used
@@ -347,28 +315,6 @@ bact_desc = get_or_create_descriptors(bact_chunks, "P0A7B8")
 ### Web:
 - **Flask** - Web framework
 - **HTML/CSS/JavaScript** - Beautiful UI
-
----
-
-## 📊 Output Interpretation
-
-### Alignment Scores:
-- **Score ≥ 15**: 🟢 Very strong similarity (high confidence)
-- **Score 10-15**: 🟡 Moderate similarity (potential relationship)
-- **Score 5-10**: 🟠 Weak similarity (consider with caution)
-- **Score < 5**: 🔴 Very weak (likely unrelated)
-
-### Biochemical Indicators:
-- **⬆️**: Significantly higher in human protein (>10% difference)
-- **⬇️**: Significantly lower in human protein (>10% difference)
-- **≈**: Similar between proteins (<10% difference)
-
-### What "Significant Region" Means:
-A continuous stretch of protein sequence where both proteins show strong structural/functional similarity based on ESM-2 embeddings. These regions may indicate:
-- ✓ Conserved functional domains
-- ✓ Similar 3D structure
-- ✓ Shared evolutionary origin
-- ✓ Potential horizontal gene transfer
 
 ---
 
