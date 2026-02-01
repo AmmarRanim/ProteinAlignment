@@ -1,0 +1,10 @@
+flask>=3.0.0
+biopython>=1.83
+pandas>=2.1.0
+numpy>=1.26.0
+torch>=2.2.0
+fair-esm>=2.0.0
+pyarrow>=14.0.0
+groq>=0.4.0
+requests>=2.31.0
+python-dotenv>=1.0.0

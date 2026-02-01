@@ -1,0 +1,85 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║                    WHERE TO PUT YOUR FILES                           ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+PUT YOUR TWO PARQUET FILES HERE (same folder as app.py):
+
+your-project-folder/
+│
+├── app.py                                    ← Your Flask app
+├── config.py                                 ← Configuration
+├── chunking.py                               ← Chunking module
+│
+├── Homo_sapiens_chunks.parquet              ← PUT YOUR HUMAN FILE HERE
+├── Klebsiella_pneumoniae_chunks.parquet     ← PUT YOUR BACTERIA FILE HERE
+│
+├── models.py
+├── protein_utils.py
+├── embeddings.py
+├── alignment.py
+├── descriptors.py
+├── interpretation.py
+├── llm_interpretation.py
+├── requirements.txt
+├── templates/
+│   └── index.html
+└── cache/                                    ← Auto-created
+
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                         WHAT HAPPENS                                 ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+When you run the app:
+
+1. User enters protein ID: A0A024RA31
+   
+2. App checks: Homo_sapiens_chunks.parquet
+   
+3. IF FOUND:
+   ✓ Loads chunks from your file (instant!)
+   ✓ Uses existing data
+   
+4. IF NOT FOUND:
+   ✓ Creates new chunks
+   ✓ Appends to your file
+   ✓ Your file grows with new protein
+
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                    DIFFERENT LOCATION?                               ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+If your files are somewhere else, edit config.py:
+
+# Example 1: Files in a 'data' subfolder
+MASTER_CHUNKS_DIR = "data"
+
+# Example 2: Files in parent directory
+MASTER_CHUNKS_DIR = ".."
+
+# Example 3: Absolute path
+MASTER_CHUNKS_DIR = "C:/Users/YourName/Desktop/data"
+
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                    DIFFERENT NAMES?                                  ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+If your files have different names, edit config.py:
+
+HUMAN_CHUNKS_FILE = "your_human_chunks.parquet"
+BACTERIA_CHUNKS_FILE = "your_bacteria_chunks.parquet"
+
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                         QUICK START                                  ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+1. Copy your 2 parquet files to the project folder
+2. Run: python app.py
+3. Open: http://localhost:5000
+4. Enter protein IDs
+5. Done!
+
+The app handles everything automatically!

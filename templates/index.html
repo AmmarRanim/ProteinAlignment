@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protein Alignment Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 1.05em;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .example {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .results {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .results h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .result-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #555;
+            display: inline-block;
+            min-width: 180px;
+        }
+        
+        .result-value {
+            color: #333;
+        }
+        
+        .interpretation {
+            margin-top: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            border: 2px solid #667eea;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            color: #2c3e50;
+        }
+        
+        .interpretation-header {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .llm-interpretation {
+            margin-top: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.95em;
+            line-height: 1.8;
+            border: 2px solid #fdcb6e;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            color: #2c3e50;
+        }
+        
+        .error {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #fee;
+            border-left: 4px solid #f44;
+            border-radius: 6px;
+            color: #c33;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .info-box h3 {
+            color: #1976d2;
+            margin-bottom: 8px;
+        }
+        
+        .info-box p {
+            color: #555;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 Protein Alignment Analysis</h1>
+            <p>ESM-2 Based Protein Similarity & Alignment Tool</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <h3>How it works</h3>
+                <p>This tool analyzes protein similarities between human and bacterial proteins using ESM-2 embeddings, 
+                   Smith-Waterman alignment, and biochemical descriptors. Results are cached for faster subsequent analyses.</p>
+            </div>
+            
+            <form id="analysisForm">
+                <div class="form-group">
+                    <label for="humanProtein">Human Protein ID</label>
+                    <input type="text" id="humanProtein" name="humanProtein" 
+                           placeholder="e.g., P04637 or A0A024RA31" required>
+                    <div class="example">Examples: P04637, A0A024RA31, or tr|A0A024RA31|A0A024RA31_HUMAN</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bacteriaProtein">Bacteria Protein ID</label>
+                    <input type="text" id="bacteriaProtein" name="bacteriaProtein" 
+                           placeholder="e.g., P0A7B8 or A0A0C7KF14" required>
+                    <div class="example">Examples: P0A7B8, A0A0C7KF14, or tr|A0A0C7KF14|A0A0C7KF14_KLEPN</div>
+                </div>
+                
+                <button type="submit" id="submitBtn">Analyze Proteins</button>
+            </form>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Analyzing proteins... This may take a few minutes for the first analysis.</p>
+            </div>
+            
+            <div class="error" id="error"></div>
+            
+            <div class="results" id="results">
+                <h2>Analysis Results</h2>
+                <div class="result-item">
+                    <span class="result-label">Human Protein:</span>
+                    <span class="result-value" id="resultHumanId"></span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Bacteria Protein:</span>
+                    <span class="result-value" id="resultBactId"></span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Human Sequence Length:</span>
+                    <span class="result-value" id="resultHumanLen"></span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Bacteria Sequence Length:</span>
+                    <span class="result-value" id="resultBactLen"></span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Human Chunks:</span>
+                    <span class="result-value" id="resultHumanChunks"></span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Bacteria Chunks:</span>
+                    <span class="result-value" id="resultBactChunks"></span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Alignment Score:</span>
+                    <span class="result-value" id="resultScore"></span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Aligned Chunks:</span>
+                    <span class="result-value" id="resultAlignedChunks"></span>
+                </div>
+                
+                <div class="interpretation-header">📊 Detailed Analysis</div>
+                <div class="interpretation" id="interpretation"></div>
+                
+                <div class="interpretation-header" style="margin-top: 30px;">🤖 AI-Powered Interpretation</div>
+                <div class="llm-interpretation" id="llmInterpretation"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('analysisForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const humanProtein = document.getElementById('humanProtein').value.trim();
+            const bacteriaProtein = document.getElementById('bacteriaProtein').value.trim();
+            
+            // Hide previous results/errors
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+            
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        human_protein_id: humanProtein,
+                        bacteria_protein_id: bacteriaProtein
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // Display results
+                document.getElementById('resultHumanId').textContent = data.human_protein;
+                document.getElementById('resultBactId').textContent = data.bacteria_protein;
+                document.getElementById('resultHumanLen').textContent = data.human_length + ' aa';
+                document.getElementById('resultBactLen').textContent = data.bacteria_length + ' aa';
+                document.getElementById('resultHumanChunks').textContent = data.num_human_chunks;
+                document.getElementById('resultBactChunks').textContent = data.num_bacteria_chunks;
+                document.getElementById('resultScore').textContent = data.alignment_score.toFixed(2);
+                document.getElementById('resultAlignedChunks').textContent = data.num_aligned_chunks;
+                document.getElementById('interpretation').textContent = data.interpretation;
+                document.getElementById('llmInterpretation').textContent = data.llm_interpretation || 'LLM interpretation not available (API key not configured)';
+                
+                document.getElementById('results').style.display = 'block';
+                
+            } catch (error) {
+                document.getElementById('error').textContent = 'Error: ' + error.message;
+                document.getElementById('error').style.display = 'block';
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
