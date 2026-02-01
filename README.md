@@ -201,7 +201,7 @@ cd path/to/protein-alignment-tool
 # 2. Install dependencies
 pip install -r requirements.txt
 
-# 3. (Optional) Set up Groq API key for AI interpretation
+# 3. Set up Groq API key for AI interpretation
 # Get a free key at: https://console.groq.com/keys
 # Option A (recommended): copy .env.example to .env and set GROQ_API_KEY
 # Option B: set OS env var (PowerShell) $Env:GROQ_API_KEY="your_key"
@@ -268,7 +268,7 @@ Then open your browser to: **http://localhost:5000**
   ```bash
   python setup_llm.py
   ```
-  This writes your key into `.env` (which is git-ignored).
+  
 - Dependencies: `groq` is included in `requirements.txt`.
 - Run the app. If the key is detected, an AI interpretation section appears in results.
 
