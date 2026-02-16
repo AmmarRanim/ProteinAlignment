@@ -1,6 +1,6 @@
 # 🧬 Protein Alignment Analysis Tool
 
-**AI-Powered Protein Similarity Detection using ESM-2 Embeddings**
+**Web-based protein alignment analysis using ESM-2 embeddings, Smith-Waterman algorithm, and LLM interpretation**
 
 A comprehensive bioinformatics tool that analyzes and compares protein sequences between human and bacterial proteins using state-of-the-art AI embeddings (ESM-2), Smith-Waterman alignment, and biochemical descriptors.
 
