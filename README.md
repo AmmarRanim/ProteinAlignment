@@ -39,7 +39,7 @@ This tool helps you **discover and analyze similarities between human and bacter
 - Support for various ID formats (P04637, tr|A0A024RA31|A0A024RA31_HUMAN, etc.)
 
 ### 2. **AI-Powered Embeddings**
-- Uses ESM-2 (650M parameter model) from Meta AI
+- Uses ESM-2 from Meta AI
 - Captures deep structural and functional patterns
 - 1280-dimensional embeddings per chunk
 
