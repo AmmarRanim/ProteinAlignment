@@ -196,7 +196,6 @@ protein-alignment-tool/
 
 ### Prerequisites
 - Python 3.8+
-- 4GB+ RAM (8GB+ recommended for GPU)
 - Internet connection (for UniProt API)
 
 ### 1. (Recommended) Create a Virtual Environment
