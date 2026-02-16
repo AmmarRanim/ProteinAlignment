@@ -182,30 +182,63 @@ protein-alignment-tool/
       ├── *.ipynb               # Original research notebooks
       └── notebook_descriptors.txt
 ```
+## 📁 Data Files
 
+**Data and cache folders are not included in the repository by default.**
+
+- The `data/` and `cache/` folders are used to store generated files, outputs, and downloaded protein sequences (such as `.fasta` files).
+- These folders are created automatically by the application as needed.
+- **You do not need to manually add these folders or files unless you want to use your own data.**
+- If you want to use your own `.fasta` or data files, place them in the appropriate folder (`data/` or `cache/`) and ensure the file names match the expected format.
 ---
 
-## 🚀 Quick Start
+## 🚀 Installation & Setup
 
-### Installation:
+### Prerequisites
+- Python 3.8+
+- 4GB+ RAM (8GB+ recommended for GPU)
+- Internet connection (for UniProt API)
 
-```bash
-# 1. Clone or navigate to project
-cd path/to/protein-alignment-tool
+### 1. (Recommended) Create a Virtual Environment
 
-# 2. Install dependencies
-pip install -r requirements.txt
-
-# 3. Set up Groq API key for AI interpretation
-# Get a free key at: https://console.groq.com/keys
-# Option A (recommended): copy .env.example to .env and set GROQ_API_KEY
-# Option B: set OS env var (PowerShell) $Env:GROQ_API_KEY="your_key"
-
-# 4. (Optional) Set up Pfam for domain analysis
-# See docs/PFAM_SETUP.md for WSL installation
+**Windows (PowerShell):**
+```powershell
+python -m venv .venv
+. .venv\Scripts\Activate.ps1
 ```
 
-### Run the Application:
+**Linux/macOS:**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 2. Upgrade pip (recommended)
+```bash
+python -m pip install --upgrade pip
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Set Up Groq API Key for AI Interpretation
+- Get a free key at: https://console.groq.com/keys
+- Option A (recommended): Copy `.env.example` to `.env` and set `GROQ_API_KEY` in `.env`.
+- Option B: Set OS environment variable (PowerShell):
+  ```powershell
+  $Env:GROQ_API_KEY="your_key"
+  ```
+- Or run the helper:
+  ```bash
+  python setup_llm.py
+  ```
+
+### 5. (Optional) Set Up Pfam for Domain Analysis
+- See `docs/PFAM_SETUP.md` for WSL installation and setup instructions.
+
+### 6. Run the Application
 
 **Windows:**
 ```bash
@@ -218,54 +251,6 @@ python app.py
 ```
 
 Then open your browser to: **http://localhost:5000**
-
----
-
-## 🧩 Setup Notes (to ensure it runs)
-
-- Recommended: use a virtual environment
-
-  Windows (PowerShell):
-  ```powershell
-  python -m venv .venv
-  . .venv\Scripts\Activate.ps1
-  pip install -r requirements.txt
-  ```
-
-  Linux/macOS:
-  ```bash
-  python3 -m venv .venv
-  source .venv/bin/activate
-  pip install -r requirements.txt
-  ```
-
-- If PyTorch install fails on your platform:
-  - CPU-only:
-    ```bash
-    pip install torch --index-url https://download.pytorch.org/whl/cpu
-    ```
-  - CUDA 12.1 (GPU):
-    ```bash
-    pip install torch --index-url https://download.pytorch.org/whl/cu121
-    ```
-  - See official options: https://pytorch.org/get-started/locally/
-
-- Pfam domains are optional. If local PfamScan/WSL isn’t set up, the app automatically uses the InterPro API fallback.
-
-
-## 🤖 LLM Interpretation
-
-- Get a free key: https://console.groq.com/keys
-- Easiest setup:
-  - Copy `.env.example` → `.env`
-  - Edit `.env` and set `GROQ_API_KEY=your_key_here` (no quotes)
-- Or run the helper:
-  ```bash
-  python setup_llm.py
-  ```
-  
-- Dependencies: `groq` is included in `requirements.txt`.
-- Run the app. If the key is detected, an AI interpretation section appears in results.
 
 ## 💡 Usage
 
