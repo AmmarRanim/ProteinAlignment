@@ -45,7 +45,6 @@ This tool helps you **discover and analyze similarities between human and bacter
 
 ### 3. **Advanced Alignment**
 - Smith-Waterman local alignment
-- Detects multiple non-overlapping regions
 - Customizable gap penalties and scoring thresholds
 
 ### 4. **Comprehensive Biochemical Analysis**
