@@ -30,13 +30,6 @@ This tool helps you **discover and analyze similarities between human and bacter
 6. **Detecting functional annotations** (Pfam domains, Prosite motifs, signal peptides, TM helices)
 7. **Generating AI interpretations** using LLM (Groq API) to explain biological significance
 
-### Real-World Use Cases:
-- 🔬 **Drug Discovery**: Find conserved regions that could be drug targets
-- 🧪 **Evolutionary Biology**: Identify horizontal gene transfer between species
-- 💊 **Antibiotic Resistance**: Detect similar resistance mechanisms
-- 🧬 **Functional Annotation**: Predict bacterial protein functions based on human homologs
-- 🔍 **Protein Engineering**: Identify conserved structural/functional domains
-
 ---
 
 ## ✨ Key Features
